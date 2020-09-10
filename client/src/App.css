@@ -1,0 +1,79 @@
+.auth-card {
+  margin-top: 100px;
+  border-top-style: solid;
+  border-top-color: #0275d8;
+  border-radius: 0;
+  border-width: 1px;   
+  margin: 100px auto auto; 
+}
+.card-header {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.inp {
+  border:none;
+  border-bottom: 1px solid #1890ff;
+  padding: 5px 5px;
+  outline: none;
+  margin: 2px 0px;
+}
+p{ margin-bottom: 0;}
+[placeholder]:focus::-webkit-input-placeholder {
+  transition: text-indent 0.4s 0.4s ease; 
+  text-indent: -100%;
+  opacity: 1;
+}
+.toInline {
+  display:inline-block;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.g_img {
+  width: 30%;
+}
+
+.home-card{
+  max-width: 550px;
+  height: max-content;
+  margin: 26px auto;
+}
+
+/*create-post #95389e */
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0; 
+  right: 0; 
+  min-width: 100%; 
+  min-height: 100%; 
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  cursor: inherit;
+  display: block;
+  margin: 10px auto;
+}
+
+/*tost*/
+.toastClass{
+  /* margin: 2px auto; */
+  position: absolute; 
+  top: 80px !important;
+  right: 50px !important;
+  left: auto;
+  color: white;
+  width: 300px;
+  line-height: 45px;
+  text-align: center;
+  font-size: 18px;
+}
+.toastError{background-color:#f70d1a;}
+.toastSuccess{background-color:#22bb33;}

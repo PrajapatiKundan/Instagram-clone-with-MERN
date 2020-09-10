@@ -1,0 +1,16 @@
+.vscode
+.DS_Store
+
+server/package.json
+server/package-lock.json
+server/keys.js
+server/node_modules/
+
+client/node_modules/
+client/src/keys/
+client/src/components/screens/images/
+
+client/README.md 
+client/package.json
+client/package-lock.json
+client/.gitignore
