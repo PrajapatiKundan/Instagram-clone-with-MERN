@@ -8,11 +8,17 @@ const Navbar = () => {
     const renderList = () => {
         if(state){
             return ([
+                <li className="nav-item active" key="1">
+                    <Link className="nav-link" to={state ? "/":"/signin"}>Home</Link>
+                </li>,
+                <li className="nav-item active" key="2">
+                <Link className="nav-link" to="/subscribeduserposts">My-Following-Posts</Link>
+                </li>,
                 <li className="nav-item active" key="3">
                     <Link className="nav-link" to="/profile">Profile</Link>
                 </li>,
                 <li className="nav-item active" key="4">
-                    <Link className="nav-link" to="/createpost">Create Post</Link>
+                    <Link className="nav-link" to="/createpost">Create-Post</Link>
                 </li>,
                 <li className="nav-item active" key="5">
                     <button 

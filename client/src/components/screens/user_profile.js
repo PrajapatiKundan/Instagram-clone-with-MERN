@@ -17,11 +17,85 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then(result => {
-            console.log("RESULT in user profile",result)
+            // console.log("RESULT in user profile",result)
+            // console.log("STATE : ", state)
             setUserDetail(result)
         })
     },[])
-    console.log("user detail:",userDetail)
+    //console.log("user detail:",userDetail)
+    
+    const followUser = () => {
+
+        fetch('/follow',{
+            method:"put",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer "+localStorage.getItem('jwt')
+            },
+            body:JSON.stringify({
+                follow_id: userId
+            })
+        })
+        .then(res => res.json())
+        .then( data => {
+            dispatch({
+                type:"UPDATE",
+                payload:{
+                    followers:data.followers,
+                    following:data.following
+                }
+            })
+
+            localStorage.setItem("user", JSON.stringify(data))
+            
+            setUserDetail((prevState) => {
+                return {
+                    ...prevState,
+                    user:{
+                        ...prevState.user,
+                        followers:[...prevState.user.followers, data._id]
+                    }
+                }
+            })
+        })
+    } 
+    const unfollowUser = () => {
+
+        fetch('/unfollow',{
+            method:"put",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization": "Bearer "+localStorage.getItem('jwt')
+            },
+            body:JSON.stringify({
+                unfollow_id: userId
+            })
+        })
+        .then(res => res.json())
+        .then( data => {
+            dispatch({
+                type:"UPDATE",
+                payload:{
+                    followers:data.followers,
+                    following:data.following
+                }
+            })
+
+            localStorage.setItem("user", JSON.stringify(data))
+            
+            setUserDetail((prevState) => {
+                const newFollowers = prevState.user.followers.filter(item => item !== data._id)
+                return {
+                    ...prevState,
+                    user:{
+                        ...prevState.user,
+                        followers:newFollowers
+                    }
+                }
+            })
+        })
+    } 
+
     return (
         <>
         {
@@ -34,7 +108,8 @@ const UserProfile = () => {
                     display: "flex",
                     justifyContent: "space-around",
                     margin: "18px 0",
-                    borderBottom: "1px solid grey"
+                    borderBottom: "1px solid grey",
+                    height:"177px"
                 }}>
                     <div>
                         <img 
@@ -44,13 +119,30 @@ const UserProfile = () => {
                         />
                     </div>
                     <div>
-                        <div style={{margin:"22% 0"}}>
+                        <div style={{margin:"14% 0"}}>
                         <h4>{userDetail.user.name}</h4>
-                        <h5>{userDetail.user.email}</h5>
+                        
                         <div style={{ display:"flex", justifyContent:"space-between", width:"108%"}}>
                             <h6>{userDetail.posts.length} posts</h6>
-                            <h6>40 followers</h6>
-                            <h6>40 followings</h6>
+                            <h6>{userDetail.user.followers.length} followers</h6>
+                            <h6>{userDetail.user.following.length} followings</h6>
+                        </div>
+                        <div style={{position:"absolute"}}>
+                            {
+                                !(userDetail.user.followers.includes(state._id))
+                                ?
+                                <button 
+                                className="badge badge-secondary user-profile-btn" 
+                                style={{borderRadius:"6px"}}
+                                onClick={ () => followUser() }    
+                                >Follow</button>
+                                :
+                                <button 
+                                className="badge badge-secondary user-profile-btn" 
+                                style={{borderRadius:"6px"}}
+                                onClick={ () => unfollowUser() }    
+                                >Unfollow</button>
+                            }
                         </div>
                         </div>
                     </div>

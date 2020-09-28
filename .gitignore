@@ -1,6 +1,6 @@
 .vscode
 .DS_Store
-
+.env
 server/package.json
 server/package-lock.json
 server/keys.js

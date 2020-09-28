@@ -3,7 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const { MONGOURI } = require('./keys')
 
-//------------------------------------------------------------------------------------------|
+//------------------------------------------------Make Connection------------------------------------------|
 mongoose.connect(MONGOURI, {
     useNewUrlParser:true,
     useUnifiedTopology:true,
@@ -28,7 +28,7 @@ app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
 app.use(require('./routes/user'))
 //------------------------------------------------------------------------------------------|
-//A-test123
+
 
 
 app.listen(process.env.PORT || 5000, () => {

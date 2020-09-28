@@ -7,6 +7,7 @@ import SignUp from './components/screens/signup'
 import Profile from './components/screens/profile'
 import CreatePost from './components/screens/createpost'
 import UserProfile from './components/screens/user_profile'
+import SubscribedUserPosts from './components/screens/subscribed_users_posts'
 import './App.css'
 import { reducer, initialState} from './reducers/userReducer'
 
@@ -48,6 +49,9 @@ const Routing = () => {
         </Route>
         <Route path="/profile/:userId" exact>
           <UserProfile />
+        </Route>
+        <Route path="/subscribeduserposts" exact>
+          <SubscribedUserPosts />
         </Route>
     </Switch>
   )

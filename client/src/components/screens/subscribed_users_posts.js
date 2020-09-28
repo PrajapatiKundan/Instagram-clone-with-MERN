@@ -2,14 +2,14 @@ import React, {useEffect, useState, useContext} from 'react';
 import {UserContext} from '../../App'
 import {Link} from 'react-router-dom'
 
-const Home = () => {
+const SubscribedUserPosts = () => {
     const [data, setData] = useState([])//all the posts
     const { state, dispatch } = useContext(UserContext)
     const [viewComment, setViewComment] = useState(false)
 
     useEffect(() => {
 
-        fetch('/allpost', {
+        fetch('/subscribeduserposts', {
             //by default it is a get request
             headers:{
                 "Authorization":"Bearer "+ localStorage.getItem("jwt")
@@ -34,7 +34,7 @@ const Home = () => {
         })
         .then( res => res.json())
         .then( result => {
-            console.log("LIKE Result: ",result)
+            //console.log("LIKE Result: ",result)
 
             //new data contains updated post data
             const newData = data.map( item => {
@@ -144,6 +144,36 @@ const Home = () => {
         })
         .catch( err => console.log(err))
     }
+
+    // const handleViewComments = (comments) => {
+    //     return (
+    //         comments.map(record => {
+    //             return (
+    //                 <p key={record._id}>
+    //                 <img 
+    //                     style={{width:"25px", height:"25px", borderRadius:"50%", margin:"8px"}}
+    //                     src={record.postedBy.profile_pic}
+    //                     alt="No profile"
+    //                 />
+    //                 <span style={{fontWeight:"500"}}>{record.postedBy.name} </span>
+                    
+    //                 <span style={{color:"grey"}}>{record.text}</span>
+    //                 {                                                 
+                        
+    //                     record.postedBy._id === state._id
+    //                     &&
+    //                     <i 
+    //                         className="fa fa-times-circle" aria-hidden="true" 
+    //                         style = {{cursor: "pointer", marginLeft:"8px",fontSize:"13px", fontWeight:"0px"}}
+    //                         title="Remove Comment"
+    //                         onClick = {() => deleteComment(item._id, record._id)}
+    //                     ></i>
+    //                 }
+    //                 </p>
+    //             )
+    //         }) 
+    //     )
+    // }
     return (
 
         <div>
@@ -187,8 +217,8 @@ const Home = () => {
                             </div>
                             
                             <img src={item.photo} className="card-img-top" alt="no" style={{marginTop:"16px"}}/>
-                            <div className="card-body" >
-                                <div style={{display:"flex", justifyContent:"space-between", marginTop:'-3px', marginBottom:'3px'}}>
+                            <div className="card-body">
+                            <div style={{display:"flex", justifyContent:"space-between", marginTop:'-3px', marginBottom:'3px'}}>
                                     <div>
                                         <i className="fas fa-heart fa-2x ml-1" style = {{ color:"#ff0000", fontSize:"20px"}}></i>
                                         <span style={{marginLeft:'8px'}}>{ item.like.length } likes</span>
@@ -212,10 +242,8 @@ const Home = () => {
                                         ></i>
                                         }
                                     </div>
-                                </div>
-                                
-                                                                                                                                                         
-                                
+                                </div>                                                                                                                        
+                                <h6>{ item.like.length } likes</h6>
                                 <h6>{ item.title }</h6>
                                 <p>{ item.body }</p>
                                 <p onClick={() => setViewComment(!viewComment)} style={{cursor:"pointer", textDecoration: "underline", fontSize:"13px", color:"grey"}}>View comments</p>
@@ -269,4 +297,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default SubscribedUserPosts

@@ -2,17 +2,30 @@ const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
 const Post = mongoose.model('Post')
+const User = mongoose.model('User')
 const requireLogin = require('../middleware/requireLogin')
 
 //populate() method populate all the field value of the user.
 router.get('/allpost',requireLogin, (req, res) => {
     Post.find()
-    .populate("postedBy", "_id name")
-    .populate("comments.postedBy", "_id name")
-    .then( posts => res.json({ posts }))
+    .populate("postedBy", "_id name profile_pic")
+    .populate("comments.postedBy", "_id name profile_pic")
+    .then( posts => {
+        res.json({ posts })
+    })
     .catch( err => console.log(err))
 })
 
+//show the subscribed users' posts only
+router.get('/subscribeduserposts',requireLogin, (req, res) => {
+    Post.find({ postedBy : { $in : req.user.following}})
+    .populate("postedBy", "_id name profile_pic")
+    .populate("comments.postedBy", "_id name profile_pic")
+    .then( posts => {
+       return res.json({ posts })
+    })
+    .catch( err => console.log(err))
+})
 
 router.post('/createpost', requireLogin, (req, res) => {
     const { title, body, pic } = req.body
@@ -20,7 +33,7 @@ router.post('/createpost', requireLogin, (req, res) => {
         return res.status(422).json({ error: "Please fill all the fields"})
     }
     //console.log("User Detail : ", req.user)
-    req.user.password = undefined
+    req.user.password = undefined//so that in postedBy the password can not be accessed
     const post = new Post({
         title,
         body,
@@ -46,6 +59,8 @@ router.put('/like', requireLogin,(req, res)=>{
         { $push:{like: req.user._id} },
         { new: true}
     )
+    .populate("postedBy", "_id name profile_pic")
+    .populate("comments.postedBy", "_id name profile_pic")
     .exec((err, result) => {
         if(err){
             return res.status(422).json({error: err})
@@ -61,6 +76,8 @@ router.put('/unlike', requireLogin,(req, res)=>{
         { $pull:{like: req.user._id} },
         { new: true}
     )
+    .populate("postedBy", "_id name profile_pic")
+    .populate("comments.postedBy", "_id name profile_pic")
     .exec((err, result) => {
         if(err){
             return res.status(422).json({error: err})
