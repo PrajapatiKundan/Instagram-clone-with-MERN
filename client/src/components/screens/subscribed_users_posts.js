@@ -206,7 +206,6 @@ const SubscribedUserPosts = () => {
                                         }
                                     </div>
                                 </div>                                                                                                                        
-                                <h6>{ item.like.length } likes</h6>
                                 <h6>{ item.title }</h6>
                                 <p>{ item.body }</p>
                                 <p onClick={() => setViewComment(!viewComment)} style={{cursor:"pointer", textDecoration: "underline", fontSize:"13px", color:"grey"}}>View comments</p>

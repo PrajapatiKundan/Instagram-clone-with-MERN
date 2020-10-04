@@ -29,8 +29,18 @@ router.post('/signup', (req, res) => {
                     })
             
                     user.save()
-                        .then( user =>{
-                            res.json({msg:"user saved successfully!"})
+                        .then( savedUser =>{
+
+                            //console.log("saved user => ", savedUser)
+                            const token = jwt.sign({ _id: savedUser._id}, JWT_SECRET_KEY)
+                            const { _id, name, email, followers, following, profile_pic } = savedUser
+                          
+                            res.json({ 
+                                msg:"User saved successfully!",
+                                token, 
+                                user:{_id, name, email, followers, following, profile_pic}
+                            })
+                            //res.json({msg:"user saved successfully!"})
                         })
                         .catch( err => {
                             console.log(err);

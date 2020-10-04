@@ -35,7 +35,7 @@ const SignIn = () => {
                 M.toast({html:data.error, classes:"toastClass toastError", displayLength:"1500"})
                 return
             }else{
-                console.log("Data : ", data)    
+                //console.log("Data : ", data)    
                 localStorage.setItem("jwt", data.token)
                 
                 localStorage.setItem("user", JSON.stringify(data.user))//{_id name email}
@@ -62,7 +62,7 @@ const SignIn = () => {
                     style={{width: "311px"}}
                     value={email}
                     onChange={ e => setEmail(e.target.value)}
-                /><br />              
+                /><br /><br />              
                 <i className="fas fa-lock fa-sm ml-1 toInline"></i>
                 <input 
                     className="inp ml-1 toInline" 
@@ -71,7 +71,7 @@ const SignIn = () => {
                     style={{width: "311px"}}
                     value={password}
                     onChange={ e => setPassword(e.target.value)}
-                /><br />
+                /><br /><br />
 
                 <Link to="/signup">Don't have an account?</Link><br/>
                 <button 
