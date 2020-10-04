@@ -19,12 +19,12 @@ router.get('/allpost',requireLogin, (req, res) => {
 //show the subscribed users' posts only
 router.get('/subscribeduserposts',requireLogin, (req, res) => {
     Post.find({ postedBy : { $in : req.user.following}})
-    .populate("postedBy", "_id name profile_pic")
-    .populate("comments.postedBy", "_id name profile_pic")
-    .then( posts => {
-       return res.json({ posts })
-    })
-    .catch( err => console.log(err))
+        .populate("postedBy", "_id name profile_pic")
+        .populate("comments.postedBy", "_id name profile_pic")
+        .then( posts => {
+           return res.json({ posts })
+        })
+        .catch( err => { console.log(err) })
 })
 
 router.post('/createpost', requireLogin, (req, res) => {
@@ -32,7 +32,7 @@ router.post('/createpost', requireLogin, (req, res) => {
     if(!title || !body || !pic){
         return res.status(422).json({ error: "Please fill all the fields"})
     }
-    //console.log("User Detail : ", req.user)
+    
     req.user.password = undefined//so that in postedBy the password can not be accessed
     const post = new Post({
         title,
@@ -47,9 +47,9 @@ router.post('/createpost', requireLogin, (req, res) => {
 
 router.get('/mypost', requireLogin, (req, res) => {
     Post.find({ postedBy: req.user._id})
-    .populate("postedBy", "_id name")
-    .then( myposts => res.json({ myposts }))
-    .catch( err => console.log(err))
+        .populate("postedBy", "_id name")
+        .then( myposts => res.json({ myposts }))
+        .catch( err => console.log(err))
 })
 
 router.put('/like', requireLogin,(req, res)=>{
@@ -98,8 +98,8 @@ router.put('/comment', requireLogin, (req, res)=>{
         { $push:{comments:comment} },
         { new: true }
     )
-    .populate("comments.postedBy", "_id name")
-    .populate("postedBy", "_id name")
+    .populate("comments.postedBy", "_id name profile_pic")
+    .populate("postedBy", "_id name profile_pic")
     .exec((err, result)=>{
         if(err){
             return res.status(422).json({error:err})

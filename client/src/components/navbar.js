@@ -26,7 +26,7 @@ const Navbar = () => {
                         style={{ marginTop:"4px"}}
                         onClick={ () => {
                             localStorage.clear()
-                            dispatch({type:"CLEAR"})
+                            dispatch({type:"LOGOUT"})
                             history.push("/signin")
                         } }    
                     >Log out</button>

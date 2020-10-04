@@ -4,11 +4,11 @@ import {Link} from 'react-router-dom'
 
 const Home = () => {
     const [data, setData] = useState([])//all the posts
+    // eslint-disable-next-line
     const { state, dispatch } = useContext(UserContext)
     const [viewComment, setViewComment] = useState(false)
 
     useEffect(() => {
-
         fetch('/allpost', {
             //by default it is a get request
             headers:{
@@ -19,6 +19,7 @@ const Home = () => {
         .then( result => {
             setData(result.posts)
         })
+        .catch(err => {console.log(err)})
     },[])
 
     const likePost = (id) =>{
@@ -34,7 +35,6 @@ const Home = () => {
         })
         .then( res => res.json())
         .then( result => {
-            console.log("LIKE Result: ",result)
 
             //new data contains updated post data
             const newData = data.map( item => {
@@ -47,9 +47,8 @@ const Home = () => {
             setData(newData)
         })
         .catch( err => {console.log(err)})
-
-        
     }
+
     const unlikePost = (id) =>{
         fetch('/unlike',{
             method:"put",
@@ -63,7 +62,6 @@ const Home = () => {
         })
         .then( res => res.json())
         .then( result => {
-            console.log("UNLIKE : ",result)
             //new data contains updated post data
             const newData = data.map( item => {
                 if(item._id === result._id){
@@ -91,7 +89,7 @@ const Home = () => {
         })
         .then(res => res.json())
         .then( result => {
-            console.log("Result : ",result)
+            
             const newData = data.map( item => {
                 if(item._id === result._id){
                     return result
@@ -134,11 +132,13 @@ const Home = () => {
         .then( result => {
             
             const newData = data.map( item => {
+            
                 if(item._id === result._id){
                     return result
                 }else{
                     return item
                 }
+       
             })
             setData(newData)
         })
@@ -153,9 +153,8 @@ const Home = () => {
                 <p>Loading...!</p>
                 :
                 data.map( (item, i) => {
-                    // console.log("ITEM : ",item)
-                    // console.log("length : ",item.like.length)
                     return (
+
                         <div className="card mb-3 home-card" key={i}>
                             <div style={{height: "32px",lineHeight: "32px"}}>
                             <Link to={item.postedBy._id !== state._id ? "/profile/"+item.postedBy._id:"/profile"}>
@@ -182,8 +181,6 @@ const Home = () => {
                                     onClick = {() => deletePost(item._id)}
                                 ></i>
                             }                                
-                            
-                            
                             </div>
                             
                             <img src={item.photo} className="card-img-top" alt="no" style={{marginTop:"16px"}}/>
@@ -214,8 +211,6 @@ const Home = () => {
                                     </div>
                                 </div>
                                 
-                                                                                                                                                         
-                                
                                 <h6>{ item.title }</h6>
                                 <p>{ item.body }</p>
                                 <p onClick={() => setViewComment(!viewComment)} style={{cursor:"pointer", textDecoration: "underline", fontSize:"13px", color:"grey"}}>View comments</p>
@@ -223,6 +218,7 @@ const Home = () => {
                                     viewComment
                                     &&
                                     item.comments.map(record => {
+
                                         return (
                                             <p key={record._id}>
                                             <img 
@@ -231,7 +227,6 @@ const Home = () => {
                                                 alt="No profile"
                                             />
                                             <span style={{fontWeight:"500"}}>{record.postedBy.name} </span>
-                                            
                                             <span style={{color:"grey"}}>{record.text}</span>
                                             {                                                 
                                                 
@@ -247,7 +242,6 @@ const Home = () => {
                                             </p>
                                         )
                                     })
-
                                 }
                                 <div style={{ margin: "2px auto"}}>
                                     <form
@@ -257,7 +251,7 @@ const Home = () => {
                                             e.target.comment_txt.value = ""
                                         }}
                                     >
-                                    <input name="comment_txt" className="inp ml-1 toInline" type="text" style={{width:"90%"}} placeholder="add a comment"/><br />
+                                        <input name="comment_txt" className="inp ml-1 toInline" type="text" style={{width:"90%"}} placeholder="add a comment"/><br />
                                     </form>
                                 </div>
                             </div>

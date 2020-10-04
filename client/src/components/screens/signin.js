@@ -4,6 +4,7 @@ import M from 'materialize-css'
 import {UserContext} from '../../App'
 
 const SignIn = () => {
+    // eslint-disable-next-line
     const { state, dispatch } = useContext(UserContext)
     
     const history = useHistory()
@@ -29,12 +30,14 @@ const SignIn = () => {
         })
         .then( res => res.json())
         .then( data => {
-            console.log("Data : ", data)
+            
             if(data.error){
                 M.toast({html:data.error, classes:"toastClass toastError", displayLength:"1500"})
                 return
             }else{
+                console.log("Data : ", data)    
                 localStorage.setItem("jwt", data.token)
+                
                 localStorage.setItem("user", JSON.stringify(data.user))//{_id name email}
                 dispatch({
                     type:"USER",//actiontype

@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {UserContext} from '../../App'
 import { useParams } from 'react-router-dom'
-//import './signin.css';
 
 const UserProfile = () => {
     const [userDetail, setUserDetail] = useState(null)
@@ -9,7 +8,7 @@ const UserProfile = () => {
     const {userId} = useParams()
 
     useEffect(() => {
-        console.log("user id : ",userId)
+        
         fetch(`/user/${userId}`, {
             headers:{
                 "Authorization":"Bearer "+localStorage.getItem("jwt")
@@ -17,12 +16,10 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then(result => {
-            // console.log("RESULT in user profile",result)
-            // console.log("STATE : ", state)
             setUserDetail(result)
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
-    //console.log("user detail:",userDetail)
     
     const followUser = () => {
 
@@ -38,6 +35,7 @@ const UserProfile = () => {
         })
         .then(res => res.json())
         .then( data => {
+            
             dispatch({
                 type:"UPDATE",
                 payload:{
@@ -114,7 +112,7 @@ const UserProfile = () => {
                     <div>
                         <img 
                             style={{width:"160px", height:"160px", borderRadius:"80px"}}
-                            src={require('./images/profile.jpg')}
+                            src={userDetail.user.profile_pic}
                             alt="No profile"
                         />
                     </div>

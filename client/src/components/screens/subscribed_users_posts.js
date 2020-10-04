@@ -4,13 +4,13 @@ import {Link} from 'react-router-dom'
 
 const SubscribedUserPosts = () => {
     const [data, setData] = useState([])//all the posts
+    // eslint-disable-next-line
     const { state, dispatch } = useContext(UserContext)
     const [viewComment, setViewComment] = useState(false)
 
     useEffect(() => {
 
         fetch('/subscribeduserposts', {
-            //by default it is a get request
             headers:{
                 "Authorization":"Bearer "+ localStorage.getItem("jwt")
             }
@@ -34,9 +34,7 @@ const SubscribedUserPosts = () => {
         })
         .then( res => res.json())
         .then( result => {
-            //console.log("LIKE Result: ",result)
 
-            //new data contains updated post data
             const newData = data.map( item => {
                 if(item._id === result._id){
                     return result
@@ -63,8 +61,6 @@ const SubscribedUserPosts = () => {
         })
         .then( res => res.json())
         .then( result => {
-            console.log("UNLIKE : ",result)
-            //new data contains updated post data
             const newData = data.map( item => {
                 if(item._id === result._id){
                     return result
@@ -91,7 +87,7 @@ const SubscribedUserPosts = () => {
         })
         .then(res => res.json())
         .then( result => {
-            console.log("Result : ",result)
+            
             const newData = data.map( item => {
                 if(item._id === result._id){
                     return result
@@ -145,37 +141,7 @@ const SubscribedUserPosts = () => {
         .catch( err => console.log(err))
     }
 
-    // const handleViewComments = (comments) => {
-    //     return (
-    //         comments.map(record => {
-    //             return (
-    //                 <p key={record._id}>
-    //                 <img 
-    //                     style={{width:"25px", height:"25px", borderRadius:"50%", margin:"8px"}}
-    //                     src={record.postedBy.profile_pic}
-    //                     alt="No profile"
-    //                 />
-    //                 <span style={{fontWeight:"500"}}>{record.postedBy.name} </span>
-                    
-    //                 <span style={{color:"grey"}}>{record.text}</span>
-    //                 {                                                 
-                        
-    //                     record.postedBy._id === state._id
-    //                     &&
-    //                     <i 
-    //                         className="fa fa-times-circle" aria-hidden="true" 
-    //                         style = {{cursor: "pointer", marginLeft:"8px",fontSize:"13px", fontWeight:"0px"}}
-    //                         title="Remove Comment"
-    //                         onClick = {() => deleteComment(item._id, record._id)}
-    //                     ></i>
-    //                 }
-    //                 </p>
-    //             )
-    //         }) 
-    //     )
-    // }
     return (
-
         <div>
             {
                 !data
@@ -183,8 +149,7 @@ const SubscribedUserPosts = () => {
                 <p>Loading...!</p>
                 :
                 data.map( (item, i) => {
-                    // console.log("ITEM : ",item)
-                    // console.log("length : ",item.like.length)
+                    
                     return (
                         <div className="card mb-3 home-card" key={i}>
                             <div style={{height: "32px",lineHeight: "32px"}}>
@@ -211,9 +176,7 @@ const SubscribedUserPosts = () => {
                                     style = {{cursor: "pointer", position:"absolute",top:"12px", right:"6px"}}
                                     onClick = {() => deletePost(item._id)}
                                 ></i>
-                            }                                
-                            
-                            
+                            }                                                                                      
                             </div>
                             
                             <img src={item.photo} className="card-img-top" alt="no" style={{marginTop:"16px"}}/>

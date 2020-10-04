@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {UserContext} from '../../App'
 import { CLOUD_NAME, CLOUD_URL_FOR_IMAGE, UPLOAD_PRESET} from '../../keys/keys_and_url'
-//import './signin.css';
 
 const Profile = () => {
     const [mypics, setMypics] = useState([])
@@ -18,11 +17,9 @@ const Profile = () => {
         })
         .then(res => res.json())
         .then(result => {
-            //console.log("RESULT in profile",result)
             setMypics(result.myposts)
         })
 
-        console.log("STATE 2 => ", state)
     },[])
 
 
@@ -41,7 +38,7 @@ const Profile = () => {
             })
             .then( res => res.json())
             .then( data => {
-                console.log("DATA PIC URL : ",data)
+                
                 localStorage.setItem("user",JSON.stringify({
                     ...state,
                     profile_pic: data.profile_pic
@@ -75,7 +72,6 @@ const Profile = () => {
         setImage("")
     }
 
-    console.log("STATE 1 => ", state)
     return (
         
         <div style={{ maxWidth:"550px", margin:"0px auto"}}>

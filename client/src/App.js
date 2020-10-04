@@ -15,10 +15,10 @@ export const UserContext = createContext()
 
 const Routing = () => {
   const history = useHistory()
+  // eslint-disable-next-line
   const {state, dispatch} = useContext(UserContext)
   
   useEffect(()=>{
-    console.log("User Effect render")
     const user = JSON.parse(localStorage.getItem("user"))
     
     if(user){
